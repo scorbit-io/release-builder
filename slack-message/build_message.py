@@ -18,6 +18,7 @@ GITHUB_RUN_STATUS_ICON = dict(
 ).get(os.environ.get("RELEASE_STATUS", "pending"), os.environ.get("RELEASE_ICON", "🚀"))
 GITHUB_RUN_URL = f"{GITHUB_REPOSITORY_URL}/actions/runs/{GITHUB_RUN_ID}"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_USER_ATTACHMENTS_URL = "https://github.com/user-attachments"
 MESSAGE_TEMPLATE = os.environ.get("MESSAGE_TEMPLATE", "")
 PROJECT_NAME = os.environ.get("PROJECT_NAME", "")
 PROJECT_TYPE = os.environ.get("PROJECT_TYPE", "website")
@@ -126,11 +127,10 @@ def get_images(release):
             if "badge" in url:
                 continue
 
-            if url.startswith(GITHUB_REPOSITORY_URL):
+            if url.startswith(GITHUB_USER_ATTACHMENTS_URL):
                 if not GITHUB_ASSETS_URL:
                     continue
-
-                url = url.replace(GITHUB_REPOSITORY_URL, GITHUB_ASSETS_URL)
+                url = url.replace(GITHUB_USER_ATTACHMENTS_URL, GITHUB_ASSETS_URL)
 
             images.append(
                 (f"{pull['title']} #{pull['number']}: {text}".strip(": "), url)
