@@ -71,16 +71,20 @@ def build_message():
                         "type": "plain_text",
                         "text": text,
                     },
-                    "image_url": url,
-                    "alt_text": text,
+                    "image_url": image_url,
+                    "alt_text": alt_text,
                 }
-                for text, url in images
+                for alt_text, image_url in images
             ],
         }
 
+    avatar_url = user.get("avatar_url", "")
+    if avatar_url.startswith("https://private-avatars.githubusercontent.com"):
+        avatar_url = f"https://avatars.githubusercontent.com/u/{user.get('id', '')}"
+
     return {
         "username": actor,
-        "icon_url": user.get("avatar_url", ""),
+        "icon_url": avatar_url,
         "text": f"🚀 {actor} {verb} {project} to {target}",
         "blocks": [
             {
