@@ -15,11 +15,18 @@ runs:
   steps:
     - run: |
         echo -e "# Changelog\n" > NEXT.md
-        echo -e "All notable changes to this project will be documented in this file. See [standard-version](${{ github.server_url }}/conventional-changelog/standard-version) for commit guidelines.\n" >> NEXT.md
-        echo -e "${{ inputs.release == 'patch' && '###' || '##' }} [${{ inputs.next-version }}](${{ github.server_url }}/${{ github.repository }}/compare/${{ inputs.previous-version }}...v${{ inputs.next-version }}) ($(date +'%Y-%m-%d'))\n" >> NEXT.md
-        echo -e "${{ inputs.notes }}\n" >> NEXT.md
+        echo -e "All notable changes to this project will be documented in this file. See [standard-version](${SERVER_URL}/conventional-changelog/standard-version) for commit guidelines.\n" >> NEXT.md
+        echo -e "${HEADING} [${NEXT_VERSION}](${SERVER_URL}/${REPO}/compare/${PREV_VERSION}...v${NEXT_VERSION}) ($(date +'%Y-%m-%d'))\n" >> NEXT.md
+        echo -e "${RELEASE_NOTES}\n" >> NEXT.md
         cat CHANGELOG.md | sed -e '1,4d' >> NEXT.md && mv NEXT.md CHANGELOG.md
       shell: bash
+      env:
+        SERVER_URL: ${{ github.server_url }}
+        REPO: ${{ github.repository }}
+        NEXT_VERSION: ${{ inputs.next-version }}
+        PREV_VERSION: ${{ inputs.previous-version }}
+        HEADING: ${{ inputs.release == 'patch' && '###' || '##' }}
+        RELEASE_NOTES: ${{ inputs.notes }}
 
     - id: commit
       uses: pr-mpt/actions-commit-hash@v3
