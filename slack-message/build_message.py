@@ -133,7 +133,10 @@ def get_images(release):
             continue
 
         for text, url in find_images(pull["body"] or ""):
-            if "badge" in url:
+            # Skip badges and SVGs. Slack image blocks cannot render SVG, so
+            # including one (e.g. CI-bot promo images injected into PR bodies)
+            # makes Slack reject the whole message with invalid_blocks.
+            if "badge" in url or url.lower().split("?")[0].endswith(".svg"):
                 continue
 
             if url.startswith(GITHUB_USER_ATTACHMENTS_URL):
