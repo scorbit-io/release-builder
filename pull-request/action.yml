@@ -1,6 +1,10 @@
 name: Create pull request
 
 inputs:
+  token:
+    description: Token used to create the pull request and push the release branch. Defaults to the workflow GITHUB_TOKEN (opens PRs as github-actions[bot]).
+    required: false
+    default: ${{ github.token }}
   next-version:
     required: true
   notes:
@@ -33,6 +37,7 @@ runs:
 
     - uses: peter-evans/create-pull-request@v6
       with:
+        token: ${{ inputs.token }}
         title: Release ${{ inputs.next-version }}
         body: |
           ## Release [${{ inputs.next-version }}](${{ github.server_url }}/${{ github.repository }}/compare/${{ inputs.previous-version }}...${{ steps.commit.outputs.short }})
