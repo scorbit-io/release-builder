@@ -21,7 +21,7 @@ runs:
       shell: bash
 
     - id: build-changelog
-      uses: mikepenz/release-changelog-builder-action@v5
+      uses: mikepenz/release-changelog-builder-action@v6
       with:
         configuration: ${{ github.action_path }}/config.json
         outputFile: NEXT.md
