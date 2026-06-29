@@ -30,7 +30,7 @@ runs:
         MESSAGE_TEMPLATE: images
 
     - if: steps.build-images.outputs.message
-      uses: slackapi/slack-github-action@v1.26.0
+      uses: slackapi/slack-github-action@v3.0.3
       with:
         channel-id: ${{ inputs.channel-id }}
         payload: ${{ steps.build-images.outputs.message }}
@@ -42,7 +42,7 @@ runs:
         RELEASE_STATUS: ${{ inputs.status }}
 
     - id: send_message
-      uses: slackapi/slack-github-action@v1.26.0
+      uses: slackapi/slack-github-action@v3.0.3
       with:
         channel-id: ${{ inputs.channel-id }}
         payload: ${{ steps.build-message.outputs.message }}
