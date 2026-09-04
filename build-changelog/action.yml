@@ -39,9 +39,12 @@ runs:
         echo "release=$(cat NEXT.md | python ${{ github.action_path }}/next_release.py)" >> $GITHUB_OUTPUT
       shell: bash
 
+    # Both arguments are quoted so an empty fromTag cannot shift them. Bare,
+    # an empty fromTag collapses the list and next_version.py sees the release
+    # type as its version argument -- "patch is not valid SemVer string".
     - id: next-version
       run: |
         echo "version=$(python ${{ github.action_path }}/next_version.py \
-          ${{ steps.build-changelog.outputs.fromTag }} \
-          ${{ steps.next-release.outputs.release }})" >> $GITHUB_OUTPUT
+          "${{ steps.build-changelog.outputs.fromTag }}" \
+          "${{ steps.next-release.outputs.release }}")" >> $GITHUB_OUTPUT
       shell: bash
