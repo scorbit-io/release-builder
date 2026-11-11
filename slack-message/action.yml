@@ -17,7 +17,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+    # SB-6543: explicit, or setup-python takes the caller's .python-version,
+    # whose exact patch may have no build for the runner image.
     - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
 
     - run: pip install regex requests
       shell: bash
